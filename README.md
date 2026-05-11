@@ -35,3 +35,6 @@ Dalam sistem *message-oriented middleware*, URL ini berfungsi sebagai titik temu
 terjadi, *publisher* harus mengirimkan pesan ke lokasi yang sama dengan tempat *subscriber* menunggu. Jika terdapat perbedaan 
 pada alamat atau port, pesan yang diterbitkan oleh *publisher* tidak akan pernah sampai karena *subscriber* mendengarkan pada 
 jalur komunikasi yang berbeda.
+
+### RabbitMQ Interface
+![RabbitMQ Interface](assets/images/RabbitMQ-Interface.png)
