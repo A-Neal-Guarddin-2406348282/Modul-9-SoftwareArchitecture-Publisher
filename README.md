@@ -51,6 +51,6 @@ standby di antrean yang sama.
 ![RabbitMQ Monitoring](assets/images/RabbitMQ-SubscriberConnection.png)
 ![5 Message Events Spike](assets/images/5MessageEventSpike.png)
 
-Begitu publisher kita jalankan, kelihatan ada lonjakan di grafik RabbitMQ karena ngirim 5 pesan sekaligus secara cepat. 
+Begitu publisher kita jalankan, kelihatan ada lonjakan di grafik RabbitMQ karena ngirim 5 pesan sekaligus secara cepat. Saya eksekusi `cargo run` sebanyak 2 kali.
 Setelah pesan masuk antrean, grafiknya bakal nunjukin kalau pesan tersebut langsung diproses sama subscriber. Ini jadi 
 bukti kalau kedua layanan sudah berhasil saling komunikasi.
