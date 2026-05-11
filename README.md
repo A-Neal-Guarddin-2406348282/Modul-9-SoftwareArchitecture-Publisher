@@ -38,3 +38,7 @@ jalur komunikasi yang berbeda.
 
 ### RabbitMQ Interface
 ![RabbitMQ Interface](assets/images/RabbitMQ-Interface.png)
+
+### RabbitMQ Connection
+![RabbitMQ Connection](assets/images/RabbitMQ-Connection.png)
+![5 Message Events](assets/images/5MessageEvent.png)
