@@ -43,4 +43,10 @@ jalur komunikasi yang berbeda.
 ![RabbitMQ Connection](assets/images/RabbitMQ-Connection.png)
 ![5 Message Events](assets/images/5MessageEvent.png)
 
-Setelah publisher dan subscriber jalan, kita bisa melihat koneksinya aktif di dashboard RabbitMQ. Waktu kita jalankan cargo run di publisher, kelima pesan yang dikirim bakal langsung ditangkap dan diproses oleh subscriber yang lagi standby di antrean yang sama.
+Setelah publisher dan subscriber jalan, kita bisa melihat koneksinya aktif di dashboard RabbitMQ. Waktu kita jalankan 
+`cargo run` di publisher, kelima pesan yang dikirim bakal langsung ditangkap dan diproses oleh subscriber yang lagi 
+standby di antrean yang sama.
+
+### RabbitMQ Monitoring
+![RabbitMQ Monitoring](assets/images/RabbitMQ-SubscriberConnection.png)
+![5 Message Events Spike](assets/images/5MessageEventSpike.png)
