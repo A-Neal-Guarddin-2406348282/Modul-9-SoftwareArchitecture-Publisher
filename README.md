@@ -62,7 +62,7 @@ bukti kalau kedua layanan sudah berhasil saling komunikasi.
 Di sini kita bisa lihat kalau producer (pengirim) bisa terus-terusan mengirim data, dan semua data itu bakal numpuk dulu 
 di antrean (message queue). Nantinya, consumer (penerima) akan memproses antrean pesan tersebut pelan-pelan, satu per satu.
 
-### Many requests by typing ‘cargo run
+### Many requests by typing `cargo run`
 ![RabbitMQ Many Requests](assets/images/RabbitMQ-ManyRequests.png)
 ![Console Many Requests](assets/images/ConsoleManyRequests.png)
 
