@@ -70,7 +70,14 @@ di antrean (message queue). Nantinya, consumer (penerima) akan memproses antrean
 Lonjakan antrean pesan pada grafik menurun jauh lebih cepat karena saat ini kita menjalankan **lebih dari satu program subscriber (minimal tiga)** secara bersamaan.
 
 RabbitMQ secara otomatis mendistribusikan beban kerja tersebut ke semua *subscriber* yang sedang aktif secara bergantian 
-z(*Round-Robin dispatching*). Ibaratnya, jika sebelumnya hanya ada 1 kasir yang melayani 5 pelanggan, sekarang ada 3 kasir yang bekerja bersamaan. Hal ini membuat proses pengolahan pesan di dalam antrean menjadi jauh lebih cepat. Konsep ini dikenal dengan sebutan **Competing Consumers Pattern**, di mana beberapa *consumer* (subscriber) bekerja sama untuk mengosongkan satu antrean yang sama.
+(*Round-Robin dispatching*). Ibaratnya, jika sebelumnya hanya ada 1 kasir yang melayani 5 pelanggan, sekarang ada 3 kasir yang bekerja bersamaan. Hal ini membuat proses pengolahan pesan di dalam antrean menjadi jauh lebih cepat. Konsep ini dikenal dengan sebutan **Competing Consumers Pattern**, di mana beberapa *consumer* (subscriber) bekerja sama untuk mengosongkan satu antrean yang sama.
 
 **Apa yang bisa diperbaiki (improvement) dari kode publisher dan subscriber?**
-Jika kita perhatikan kodenya, proses penanganan pesan di *subscriber* saat ini bersifat *synchronous* dan memblokir (blocking) eksekusi program, terutama jika kita menggunakan `thread::sleep` untuk mensimulasikan proses yang lambat.
+
+Jika kita perhatikan kodenya, masih ada beberapa hal yang dapat diperbaiki dari sisi publisher maupun subscriber. Pada kode publisher, alamat RabbitMQ masih ditulis langsung sebagai `"amqp://guest:guest@localhost:5672"`. Hal ini masih cukup untuk eksperimen lokal, tetapi kurang fleksibel jika program dijalankan di cloud atau environment lain. Akan lebih baik jika URL RabbitMQ dibaca dari environment variable, sehingga kode yang sama tetap bisa digunakan tanpa mengubah source code.
+
+Selain itu, publisher masih mengirim lima event dengan pemanggilan `publish_event` yang ditulis berulang-ulang. Untuk jumlah data yang kecil, cara ini masih mudah dibaca. Namun, jika jumlah event semakin banyak, kode akan lebih rapi jika data user disimpan dalam array atau vector lalu dikirim menggunakan loop. Dengan begitu, kode publisher menjadi lebih mudah dirawat dan dikembangkan.
+
+Pada sisi subscriber, penggunaan `thread::sleep` memang berguna untuk mensimulasikan proses yang lambat. Namun, jika digunakan pada sistem nyata, blocking seperti ini dapat memperlambat pemrosesan pesan. Solusi yang lebih baik adalah menjalankan beberapa subscriber secara paralel, menggunakan worker pool, atau membuat proses yang berat berjalan secara asynchronous. Eksperimen ini menunjukkan bahwa ketika jumlah subscriber ditambah, antrean pesan di RabbitMQ dapat diproses lebih cepat karena beban kerja dibagi ke beberapa consumer.
+
+Dari eksperimen ini, saya memahami bahwa event-driven architecture membuat publisher dan subscriber tidak saling menunggu secara langsung. Publisher cukup mengirim event ke RabbitMQ, lalu subscriber memproses event tersebut sesuai kapasitasnya. Jika subscriber lambat, queue akan naik. Jika subscriber ditambah, queue akan turun lebih cepat. Ini menunjukkan bahwa sistem berbasis message broker lebih mudah diskalakan secara horizontal dengan menambah jumlah consumer.
