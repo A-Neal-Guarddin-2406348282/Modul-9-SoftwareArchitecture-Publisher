@@ -62,3 +62,15 @@ bukti kalau kedua layanan sudah berhasil saling komunikasi.
 Di sini kita bisa lihat kalau producer (pengirim) bisa terus-terusan mengirim data, dan semua data itu bakal numpuk dulu 
 di antrean (message queue). Nantinya, consumer (penerima) akan memproses antrean pesan tersebut pelan-pelan, satu per satu.
 
+### Many requests by typing ‘cargo run
+![RabbitMQ Many Requests](assets/images/RabbitMQ-ManyRequests.png)
+![Console Many Requests](assets/images/ConsoleManyRequests.png)
+
+**Mengapa lonjakan (spike) antrean pesan turun lebih cepat dari sebelumnya?**
+Lonjakan antrean pesan pada grafik menurun jauh lebih cepat karena saat ini kita menjalankan **lebih dari satu program subscriber (minimal tiga)** secara bersamaan.
+
+RabbitMQ secara otomatis mendistribusikan beban kerja tersebut ke semua *subscriber* yang sedang aktif secara bergantian 
+z(*Round-Robin dispatching*). Ibaratnya, jika sebelumnya hanya ada 1 kasir yang melayani 5 pelanggan, sekarang ada 3 kasir yang bekerja bersamaan. Hal ini membuat proses pengolahan pesan di dalam antrean menjadi jauh lebih cepat. Konsep ini dikenal dengan sebutan **Competing Consumers Pattern**, di mana beberapa *consumer* (subscriber) bekerja sama untuk mengosongkan satu antrean yang sama.
+
+**Apa yang bisa diperbaiki (improvement) dari kode publisher dan subscriber?**
+Jika kita perhatikan kodenya, proses penanganan pesan di *subscriber* saat ini bersifat *synchronous* dan memblokir (blocking) eksekusi program, terutama jika kita menggunakan `thread::sleep` untuk mensimulasikan proses yang lambat.
