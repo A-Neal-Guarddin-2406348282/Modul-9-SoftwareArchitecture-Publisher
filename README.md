@@ -59,4 +59,6 @@ bukti kalau kedua layanan sudah berhasil saling komunikasi.
 ![RabbitMQ Connection Sleep](assets/images/RabbitMQ-ConnectionSleep.png)
 ![Console Connection Sleep](assets/images/ConsoleConnectionSleep.png)
 
+Di sini kita bisa lihat kalau producer (pengirim) bisa terus-terusan mengirim data, dan semua data itu bakal numpuk dulu 
+di antrean (message queue). Nantinya, consumer (penerima) akan memproses antrean pesan tersebut pelan-pelan, satu per satu.
 
